@@ -1,0 +1,12 @@
+[submodule "Lux-Design-S1"]
+	path = Lux-Design-S1
+	url = https://github.com/Lux-AI-Challenge/Lux-Design-S1
+[submodule "Lux-Design-S2"]
+	path = Lux-Design-S2
+	url = https://github.com/Lux-AI-Challenge/Lux-Design-S2
+[submodule "Lux-Viewer-S1"]
+	path = Lux-Viewer-S1
+	url = https://github.com/Lux-AI-Challenge/Lux-Viewer-S1
+[submodule "Luxai-s2-Baseline"]
+	path = Luxai-s2-Baseline
+	url = https://github.com/RoboEden/Luxai-s2-Baseline.git
