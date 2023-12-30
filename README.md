@@ -12,6 +12,7 @@ Description: My attempts/research into the Lux AI challenge and apply different 
      - To run the challenge, enter the following command: `npx lux-ai-2021 AI_1_PATH AI_2_PATH --width WIDTH --height HEIGHT` where `AI_1_PATH` & `AI_2_PATH` are the path's to the respective `main.py` (usually it's `simple/main.py` for you to run your local AI instance).
  - Running the challenge will generate a `replays` directory with a JSON file for that last run
  - You can use the [Lux-Viewer-S1 repo](https://github.com/Lux-AI-Challenge/Lux-Viewer-S1) to watch the replay offline. Online replay engine at https://2021vis.lux-ai.org is currently still available as of 12/29/23.
+     - The `dist.zip` & `dist/` items are for release v3.1.0 for the Lux-Viewer-S1 repo (most recent version, uploaded 08/31/21).
 
 
 ### Setup (Season 2):
