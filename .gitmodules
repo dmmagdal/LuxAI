@@ -10,3 +10,6 @@
 [submodule "Luxai-s2-Baseline"]
 	path = Luxai-s2-Baseline
 	url = https://github.com/RoboEden/Luxai-s2-Baseline.git
+[submodule "optics"]
+	path = optics
+	url = https://github.com/rooklift/optics
