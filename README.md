@@ -17,7 +17,13 @@ Description: My attempts/research into the Lux AI challenge and apply different 
 
 ### Setup (Season 2):
 
- - 
+ - Create a conda environment for the game.
+     - `conda create -n "luxai_s2" "python==3.9"` (use Python >=3.7, <3.11)
+     - `conda activate luxai_s2`
+     - Install the environment (CPU or GPU version):
+         - `pip install --upgrade luxai_s2` (CPU)
+         - `pip install juxai-s2` (GPU - requires compatible GPU)
+ - Verify installation by running the CLI tool, replacing `path/to/bot/main.py` with a path to a bot (e.g. the starter kit in `kits/python/main.py`) and run `luxai-s2 path/to/bot/main.py path/to/bot/main.py -v 2 -o replay.json`
 
 
 ### Notes:
@@ -25,7 +31,31 @@ Description: My attempts/research into the Lux AI challenge and apply different 
  - This game does support a local "offline" mode for Seasons 1 & 2. There are a few caveats in terms of the environment setup.
      - For Season 1, one must install nodeJS v12+ to globaly install the competition's design (`npm install -g @lux-ai/2021-challenge@latest`). For Python, the environment must be Python 3.7+.
          - If you want to use Jupyter or Kaggle notebooks, the `kaggle-environments` package is required on top of the npm package (see the [Season 1 Kaggle Notebook](https://www.kaggle.com/code/stonet2000/lux-ai-season-1-jupyter-notebook-tutorial/notebook)). Refer to the notes in the [README.md](https://github.com/dmmagdal/HaliteRL/blob/main/README.md) for the [HaliteRL repo](https://github.com/dmmagdal/HaliteRL) I have regarding issues with setting up/installing the `kaggle-environemnts` package.
-     - For Season 2, the game is 100% runnable from Python. Refer to the **Getting Started** section of the README.md for the Season 2 repository for the specifics.
+     - For Season 2, the game is 100% runnable from Python. Refer to the **Getting Started** section of the README.md for the Season 2 repository OR the [Setup (Season 2)](#setup-season-2) section in this README.md for the specifics.
+ - Season 1
+     - I created a Dockerfile to containerize the environment to run the LuxAI program in `Dockerfile-S1`. The following docker commands I found helpful to using the docker image my dockerfile creates (run from the repo root):
+         - Build the image: `docker build -t lux-ai-s1 -f Dockerfile-S1 .`
+         - Run the docker image in interactive mode (launches bash terminal on startup): `docker run -it --name lux-s1-runner -v $(pwd)/:/run-LuxAI-S1 --rm lux-ai-s1 bash`
+             - `-v` mounts a volume
+             - `--rm` deletes the container once the container exits
+             - `--name` gives the container a name
+             - `-d` detaches the container (runs it in the background & returns the container ID)
+             - `lux-s1-runner` is the container name while `lux-ai-s1` is the image name (from the build step)
+             - `run-LuxAI-S1` is the working directory in the image (see the actual dockerfile)
+             - Reference to additional arguments when issuing `docker run` command can be found in the [docker documentation](https://docs.docker.com/engine/reference/commandline/run/)
+         - Once inside the active container, use the following command to run the experiment: `lux-ai-2021 path/to/main.py path/to/main.py --out=path/to/replay_file.json`
+             - Will usually set `--out` to be `replays/s1/$(date +"%Y_%m_%d-%H_%M_%S").json`
+                 - `date +"%Y_%m_%d-%H_%M_%S"` just takes the container `date` and formats that
+                 - The container date is used to name the most recent replay JSON file
+             - Additional arguments (reference [Lux-Design-S1 README.md](/Lux-Design-S1/README.md)):
+                 - `--seed` the seed of the map/match
+                 - `--storeLogs` stores agent logs
+                 - `--storeReplay` stores match replays
+                 - `--convertToStateful`
+                 - `--logLevel`
+     - The original `Lux-Design-S1` repo contains its own shell script and dockerfile for running the LuxAI program.
+ - Season 2
+
 
 
 ### References:
