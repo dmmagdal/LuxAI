@@ -1,0 +1,43 @@
+# Docker file to run a container that will run the LuxAI S1 local
+# replay viwer in Python 3 (no GPU).
+
+# Load NodeJS image for node 18.12.1.
+FROM node:18.12.1-slim
+
+# Set locale for variable (pulled from dockerfile in original OpenAI
+# GPT2 repository).
+ENV LANG=C.UTF-8
+
+# Create a directory in the docker container. Set the working directory
+# in the container to that newly created directory and then add all
+# files from the current directory in the host to the working directory
+# in the container.
+RUN mkdir /run-LuxAI-S1-viewer
+WORKDIR /run-LuxAI-S1-viewer
+# ADD . /run-LuxAI-S1-viewer
+ADD /Lux-Viewer-S1 /run-LuxAI-S1-viewer
+
+# Set up a volume so that the current directory in the host is
+# connected to the working directory in the container.
+
+# Copy the `dist/` folder over to the `Lux-Viewer-S1/` folder. Then
+# change directories to the `Lux-Viewer-S1/` folder.
+# RUN cp -r dist Lux-Viewer-S1
+# RUN cd Lux-Viewer-S1
+
+#
+RUN npm i -g serve
+# RUN npm run serve
+# RUN serve dist
+
+EXPOSE 5000
+
+
+# Install the required LuxAI Season 1 competition design.
+# RUN npm install -g @lux-ai/2021-challenge@latest
+
+# Run the LuxAI S1 program.
+
+# Run the Terminal game with the selected algorithms.
+# CMD ["serve", "dist"]
+# CMD ["npm", "run", "serve"]
