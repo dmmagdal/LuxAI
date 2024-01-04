@@ -1,12 +1,54 @@
-# Docker file to run a container that will run the LuxAI S1 in Python 3
-# (no GPU).
+# This docker file basically replicates the competition environment but
+# using the lux-ai-2021 tool instead.
 
-# Load NodeJS image for node 18.12.1.
-FROM node:18.12.1-slim
+# FROM ubuntu:18.04 <- Original base image. Very old version of ubuntu
+FROM ubuntu:20.04
+# FROM ubuntu:22.04 <- Wont download Python 3.8
 
-# Set locale for variable (pulled from dockerfile in original OpenAI
-# GPT2 repository).
-ENV LANG=C.UTF-8
+# Add nvm environment variables.
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 14.16.0
+
+# Basic setups.
+RUN apt-get update && apt-get install -y -q --no-install-recommends \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        wget \
+        software-properties-common
+
+# Install nvm.
+# https://github.com/creationix/nvm#install-script
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+
+# Install node and npm.
+RUN . $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default
+
+# Add node and npm to path so the commands are available.
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+# Confirm installation.
+RUN node -v
+RUN npm -v
+
+# Install lux ai.
+RUN npm i -g @lux-ai/2021-challenge@latest
+
+# Install tooling for other languages:
+
+# Java
+RUN apt-get install -y default-jre
+
+# Python
+RUN apt-get install -y python3.8
+RUN apt-get install -y python3-pip
+
+# Set python3.8 as default.
+RUN ln -s python3.8 /usr/bin/python
 
 # Create a directory in the docker container. Set the working directory
 # in the container to that newly created directory and then add all
@@ -16,22 +58,10 @@ RUN mkdir /run-LuxAI-S1
 WORKDIR /run-LuxAI-S1
 ADD . /run-LuxAI-S1
 
-# Set up a volume so that the current directory in the host is
-# connected to the working directory in the container.
-
-# Install the required LuxAI Season 1 competition design.
-RUN npm install -g @lux-ai/2021-challenge@latest
-
-# Install Python 3 (v3.9 is used I believe).
-RUN apt-get update -y
-RUN apt-get upgrade -y
-RUN apt-get install -y python3
-RUN apt-get install -y python3-pip
-RUN python3 -m pip install --upgrade pip
-
-# Install all required modules in the requirements.txt file.
+# Install python packages.
+# RUN pip3 install numpy <- Original code
+# RUN pip3 install scipy <- Original code
 RUN pip3 install -r requirementsS1.txt
 
-# Run the LuxAI S1 game with the selected algorithms.
-# CMD ["python3", "--version"]
-# CMD ["lux-ai-2021", "Lux-Design-S1/simple/main.py", "Lux-Design-S1/simple/main.py", "--out=replay.json"]
+# C++.
+RUN apt-get install g++ -y
