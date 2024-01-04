@@ -13,10 +13,14 @@ Description: My attempts/research into the Lux AI challenge and apply different 
  - Running the challenge will generate a `replays` directory with a JSON file for that last run
  - You can use the [Lux-Viewer-S1 repo](https://github.com/Lux-AI-Challenge/Lux-Viewer-S1) to watch the replay offline. Online replay engine at https://2021vis.lux-ai.org is currently still available as of 12/29/23.
      - The `dist.zip` & `dist/` items are for release v3.1.0 for the Lux-Viewer-S1 repo (most recent version, uploaded 08/31/21).
- - Docker quick commands (run from root of the repo):
+ - Run LuxAI docker quick commands (run from root of the repo):
      - Build image: `docker build -t lux-ai-s1 -f Dockerfile-S1 .`
      - Run image in container: `docker run -it --name lux-s1-runner -v $(pwd)/:/run-LuxAI-S1 --rm lux-ai-s1 bash`
      - From within the container, run the following command to execute the experiment: `npx lux-ai-2021 path/to/bot1/main.py path/to/bot2/main.py --out=replays/s1/$(date +"%Y_%m_%d-%H_%M_%S").json --storeReplay --storeLogs`
+ - Run LuxAI local replay viewer docker quick commands (run from root of repo):
+     - Build image: `docker build -t s1-viewer -f Dockerfile-S1-Viewer .`
+     - Run image in container: `docker run -it --name lux-ai-s1-viewer -p 5001:5000 s1-viewer`
+         - May want to prefix `s1-viewer` with `--rm` so that the container deletes itself when you exit the server/program.
 
 
 ### Setup (Season 2):
