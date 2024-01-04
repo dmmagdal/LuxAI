@@ -13,6 +13,10 @@ Description: My attempts/research into the Lux AI challenge and apply different 
  - Running the challenge will generate a `replays` directory with a JSON file for that last run
  - You can use the [Lux-Viewer-S1 repo](https://github.com/Lux-AI-Challenge/Lux-Viewer-S1) to watch the replay offline. Online replay engine at https://2021vis.lux-ai.org is currently still available as of 12/29/23.
      - The `dist.zip` & `dist/` items are for release v3.1.0 for the Lux-Viewer-S1 repo (most recent version, uploaded 08/31/21).
+ - Docker quick commands (run from root of the repo):
+     - Build image: `docker build -t lux-ai-s1 -f Dockerfile-S1 .`
+     - Run image in container: `docker run -it --name lux-s1-runner -v $(pwd)/:/run-LuxAI-S1 --rm lux-ai-s1 bash`
+     - From within the container, run the following command to execute the experiment: `npx lux-ai-2021 path/to/bot1/main.py path/to/bot2/main.py --out=replays/s1/$(date +"%Y_%m_%d-%H_%M_%S").json --storeReplay --storeLogs`
 
 
 ### Setup (Season 2):
@@ -24,6 +28,7 @@ Description: My attempts/research into the Lux AI challenge and apply different 
          - `pip install --upgrade luxai_s2` (CPU)
          - `pip install juxai-s2` (GPU - requires compatible GPU)
  - Verify installation by running the CLI tool, replacing `path/to/bot/main.py` with a path to a bot (e.g. the starter kit in `kits/python/main.py`) and run `luxai-s2 path/to/bot/main.py path/to/bot/main.py -v 2 -o replay.json`
+ - You can use the following replay engine at https://s2vis.lux-ai.org/ to watch your replays online. It is currently still available as of 01/02/24.
 
 
 ### Notes:
@@ -83,5 +88,6 @@ Description: My attempts/research into the Lux AI challenge and apply different 
      - [Season 1 Specs](https://www.lux-ai.org/specs-2021)
      - [Season 2 Specs](https://www.lux-ai.org/specs-s2)
      - [Season 1 Jupyter Notebook Tutorial](https://www.kaggle.com/code/stonet2000/lux-ai-season-1-jupyter-notebook-tutorial/notebook)
+     - [Season 2 Jupyter Notebook Tutorial](https://www.kaggle.com/code/stonet2000/lux-ai-challenge-season-2-tutorial-python)
  - Sentdex's Tutorials:
      - [Coding Adventure with Kaggle and Lux AI](https://www.youtube.com/watch?v=6_GXTbTL9Uc&ab_channel=sentdex) YouTube video (season 1)
